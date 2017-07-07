@@ -20,6 +20,8 @@
   "dependencies": {
     "koa": "^2.3.0",
     "koa-router": "7",
-    "koa-static": "^4.0.0"
+    "koa-static": "^4.0.0",
+    "vue": "^2.3.4",
+    "vue-server-renderer": "^2.3.4"
   }
 }
