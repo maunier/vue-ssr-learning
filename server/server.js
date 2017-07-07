@@ -1,10 +1,13 @@
 const Koa = require('koa');
-const Vue = require('vue');
-const renderer = require('vue-server-renderer').createRenderer();
 const Router = require('koa-router');
+const fs = require('fs');
+const path = require('path');
 
+const Vue = require('vue');
+const { createRenderer } = require('vue-server-renderer');
+
+// const renderer = require('vue-server-renderer').createRenderer();
 // const static = require('koa-static');
-// const path = require('path');
 
 const app = new Koa();
 const router = new Router();
@@ -12,25 +15,35 @@ const router = new Router();
 router.get('*', ctx => {
   const app = new Vue({
     data: {
-      username: 'zhaorui'
+      username: 'zhaorui2'
     },
     template: `<div>hello {{username}}, this is a page rendered at server!</div>`
   });
+  
+  const renderer = createRenderer({
+    // 入口页的模板
+    template: fs.readFileSync(path.resolve(__dirname, '../web/index.template.html'), 'utf-8'),
+  });
 
-  renderer.renderToString(app, (err, html) => {
+  const context = {
+    title: 'vue ssr'
+  }
+
+  renderer.renderToString(app, context, (err, html) => {
     if (err) {
       console.log(err)
       ctx.response.status(500).end('Internet server error');
       return;
     }
-    ctx.body = `
-      <DOCTYPE html>
-      <html>
-        <head></head>
-        <body>${html}</body>
-      </html>
+    ctx.body = html;
+    // ctx.body = `
+    //   <DOCTYPE html>
+    //   <html>
+    //     <head></head>
+    //     <body>${html}</body>
+    //   </html>
 
-    `;
+    // `;
   });
 });
 
