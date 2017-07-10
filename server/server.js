@@ -1,3 +1,5 @@
+require("babel-register"); // just used for develop 
+
 const Koa = require('koa');
 const Router = require('koa-router');
 const fs = require('fs');
