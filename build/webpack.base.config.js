@@ -4,7 +4,7 @@ import path from 'path';
 export default {
   output: {
     path: path.resolve(__dirname, '../dist'),
-    filename: '[name].[hash].js', 
+    filename: '[name].[chunckhash].js', 
     // publicPath: '/dist/'
   },
   resolve: {

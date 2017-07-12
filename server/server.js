@@ -5,7 +5,7 @@ const Router = require('koa-router');
 const fs = require('fs');
 const path = require('path');
 
-const { createRenderer } = require('vue-server-renderer');
+const { createBundleRenderer } = require('vue-server-renderer');
 const { srcPath } = require('../constants');
 const { setupDevServer, getClientManifest } = require('../build/setup-dev-server');
 
@@ -18,8 +18,8 @@ const template = fs.readFileSync(path.resolve(srcPath, './index.template.html'),
 // clientManifest会自动将webpack打包生成的bundle注入到template当中，取代htmlwebpackplugin
 // 由于clientManifest是通过回调函数异步获取，在webpack compiler编译完成后会resolve该值
 async function getRender() {
-  const clientManifest = await setupDevServer(server);
-  const renderer = createRenderer({
+  const [ clientManifest, bundle ] = await setupDevServer(server);
+  const renderer = createBundleRenderer(bundle, {
     template,
     clientManifest,
   });
