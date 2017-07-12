@@ -19,7 +19,9 @@ export default function createApp () {
   });
 
   const app = new Vue({
-    router
+    name: 'rootVue',
+    router,
+    render: h => h(Home),
   });
 
   return { app, router };
