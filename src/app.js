@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from './components/Home.vue';
+import App from './components/App.vue';
 
 Vue.config.debug = true
 Vue.use(VueRouter);
@@ -18,10 +19,12 @@ export default function createApp () {
     mode: 'history',
   });
 
+
+
   const app = new Vue({
-    name: 'rootVue',
+    name: 'rootVue', // 方便调试
     router,
-    render: h => h(Home),
+    render: h => h(App),
   });
 
   return { app, router };
