@@ -46,26 +46,7 @@ export function setupDevServer(server) {
     serverResolve(bundle);
   });
 
+  // TODO: 这里应该有bug,因为一个promise只能被resolve一次。
   Promise.all([clientManifestPromise, bundlePromise]).then(resolve);
   return promise;
 }
-
-// 这个方法有毛病。因为等到调用的时候done早就被触发了。
-// export function getClientManifest () {
-//   let resolve;
-//   const clientManifestPromise = new Promise(r => { resolve = r });
-
-//   // https://doc.webpack-china.org/api/plugins/compiler/
-//   // compiler的事件钩子函数 —— 完成编译
-//   clientCompiler.plugin('done', stats => {
-//     console.log('done');
-//     try {
-//       // devMiddleware.fileSystem 可以获取到dev插件生成在内存中的文件系统？
-//       clientManifest = JSON.parse(devMiddleware.fileSystem.readFileSync(path.join(clientConfig.output.path, 'vue-ssr-client-manifest.json'), 'utf-8'));
-//       resolve(clientManifest);
-//       // callback(clientManifest);
-//     } catch (e) {}
-//   });
-
-//   return clientManifestPromise;
-// }

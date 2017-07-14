@@ -6,10 +6,23 @@ import createApp from './app';
   
 */
 export default context => {
-  // let resolve;
-  // const promise = new Promise(r => { resolve = r; });
+  let resolve;
+  const promise = new Promise(r => { resolve = r; });
 
   const { app, router } = createApp();
-  // const { url } = context;
+  const { url } = context;
+  
+  // 想要导航到不同的 URL，则使用 router.push 方法。这个方法会向 history 栈添加一个新的记录
+  // 设置服务器端 router 的位置
+  router.push(url);
+  router.onReady(() => {
+    // 获取路由所匹配的组件
+    const matchedComponents = router.getMatchedComponents();
+
+    // 获取组件所需要的数据
+  });
+
+  
+  // return promise;
   return app;
 }
