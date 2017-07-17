@@ -31,7 +31,7 @@ export default context => {
       });
       Promise.all(allPromise).then(res => {
         // store已经初始化完毕
-        context.store = store.state;
+        context.state = store.state;
         
         resolve(app);
       });
