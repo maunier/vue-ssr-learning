@@ -10,6 +10,11 @@ const config = merge(baseConfig, {
     filename: 'server.bundle.js',
     libraryTarget: 'commonjs2'
   },
+  resolve: {
+    alias: {
+      'create-api': './create-api-server.js',
+    }
+  },
   plugins: [
     // 这是将服务器的整个输出
     // 构建为单个 JSON 文件的插件。

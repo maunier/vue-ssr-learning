@@ -10,23 +10,25 @@
 </template>
 
 <script>
-  import axios from 'axios';
-
-  async function fetchArticleLists(type, pageNo = 1, size = 10) {
-    if (!type) return [];
-    
-    return await axios.get(`/api/lists/${type}?page=${pageNo}&size=${size}`);
-  }
+  import { mapState } from 'vuex';
 
   export default {
     name: 'List',
-
-    data() {
+    data () {
       return {
         itemNumPerPage: 10,
-        articleLists: fetchArticleLists(this.$route.params.listType, this.$route.params.page, this.itemNumPerPage),
         pageName: this.$route.params.listType
       }
-    }
+    },
+    // 此函数会在组件实例化之前调用，所以它无法访问 this
+    // 也正因为如此，数据需要挂在state上，不能挂在data上，
+    asyncData ({ store, route }) {
+      const res = store.dispatch('fetchArticleLists', route.params.listType, route.params.page, 10);
+      console.log('asyncData:', res);
+      return res;
+    },
+    computed: mapState([
+      'articleLists'
+    ]),
   }
 </script>

@@ -9,6 +9,11 @@ const config = merge(baseConfig, {
     // to work with hot middleware
     app: ['webpack-hot-middleware/client', path.resolve(__dirname, '../src/client-entry.js')],
   },
+  resolve: {
+    alias: {
+      'create-api': './create-api-client.js',
+    }
+  },
   plugins: [
     // 此插件在输出目录中
     // 生成 `vue-ssr-client-manifest.json`。

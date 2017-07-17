@@ -32,25 +32,30 @@ const rendererPromise = getRender();
 let renderer;
 
 
-router.get('*',  async ctx => {
-  if (ctx.request.url != '/__webpack_hmr') {
-    console.log('ctx:', ctx);
-  }
+router.get('*', async ctx => {
+  // if (ctx.request.url != '/__webpack_hmr') {
+  // }
   const context = {
     title: 'vue ssr',
     url: ctx.request.url
   };
 
+  // to fix koa cannot reponse asyncally
+  function render(renderer) {
+    let resolve;
+    const promise = new Promise(r => resolve = r);
+
+    renderer.renderToString(context, (err, html) => {
+      resolve(html);
+    });
+
+    return promise;
+  }
+
   renderer = await rendererPromise;
-  renderer.renderToString(context, (err, html) => {
-    if (err) {
-      console.log(err)
-      ctx.response.status(500).end('Internet server error');
-      return;
-    }
-    ctx.body = html;
-  });
-  
+  const res = await render(renderer);
+  ctx.status = 200;
+  ctx.body = res;
 });
 
 

@@ -1,6 +1,7 @@
 export default class List {
   static getList(ctx) {
-    ctx.body = [{
+    // ctx.response.body = {name: 123};
+    ctx.response.body = [{
       id: 1,
       title: 'first article'
     }, {

@@ -22,7 +22,7 @@ export function setupDevServer(server) {
   const clientCompiler = webpack(clientConfig);
   const devMiddleware = webpackDevMiddleware(clientCompiler, {
     publicPath: clientConfig.output.publicPath || '',
-    noInfo: true, // 不要输出打包信息
+    // noInfo: true, // 不要输出打包信息
   });
 
   clientCompiler.plugin('done', stats => {
@@ -43,6 +43,8 @@ export function setupDevServer(server) {
   serverCompiler.watch({}, (err, stats) => {
     if (err) throw err;
     bundle = JSON.parse(mfs.readFileSync(path.join(clientConfig.output.path, 'vue-ssr-server-bundle.json'), 'utf-8'));
+    console.log('serverCompiler watched');
+    
     serverResolve(bundle);
   });
 
