@@ -20,6 +20,8 @@ export default context => {
       // 获取路由所匹配的组件
       const matchedComponents = router.getMatchedComponents();
 
+      if (!matchedComponents.length) return;
+      
       // 获取组件所需要的数据
       const allPromise = matchedComponents.map(Component => {
         if (Component.asyncData) {

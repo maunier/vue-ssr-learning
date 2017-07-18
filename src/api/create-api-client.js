@@ -1,3 +1,3 @@
-import { fetch } from 'whatwg-fetch';
+import 'whatwg-fetch';
 
 export default fetch;

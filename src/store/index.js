@@ -6,41 +6,37 @@ import fetch from 'api';
 
 Vue.use(Vuex);
 
+async function parseRes(res) {
+  if (typeof res === 'string') {
+    res = JSON.parse(res);
+  } else if (res.json) {
+    res = await res.json();
+  } else {
+    throw new Error('fetchArticleLists failed!');
+  }
+
+  return res;
+}
+
 export default function createStore () {
   return new Vuex.Store({
     state: {
       articleLists: null,
     },
     actions: {
-      fetchArticleLists ({ commit }, type, pageNo = 1, size = 10) {
+      fetchArticleLists: async ({ commit }, type, pageNo = 1, size = 10) => {
         if (!type) return Promise.reject('fetchArticleLists: you need a type');
-
-        let resolve;
-        const promise = new Promise(r => resolve = r);
         
-        fetch(`http://settle.down.com:3000/api/lists/${type}?page=${pageNo}&size=${size}`)
-        .then(res => {
-          try {
-            // TODO: 为什么这里res永远都是string?
-            res = JSON.parse(res);
-          } catch (e) {
-            console.log('fetchArticleLists parse res failed:', e);
-          }
-          console.log('res:', res)
-          console.log(typeof res);
+        const res = await fetch(`http://settle.down.com:3000/api/lists/${type}?page=${pageNo}&size=${size}`);
+        const articleLists = await parseRes(res);
 
-          commit('setArticleList', res);
-          resolve(res)
-        }, err => {
-          console.log('fetchArticleLists error:', err);
-        });
-        // return fetchRes
-        return promise;
+        commit('setArticleList', articleLists);
+        
+        return articleLists;
       }
     },
     mutations: {
       setArticleList (state, articleLists) {
-        console.log('articleLists:', articleLists);
         Vue.set(state, 'articleLists', articleLists);
       }
     }
