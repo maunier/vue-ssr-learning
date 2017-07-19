@@ -4,6 +4,7 @@ const Koa = require('koa');
 const Router = require('koa-router');
 const fs = require('fs');
 const path = require('path');
+const LRU = require('lru-cache')
 const { createBundleRenderer } = require('vue-server-renderer');
 
 const { apiRouter } = require('./router');
@@ -31,29 +32,41 @@ async function getRender() {
 const rendererPromise = getRender();
 let renderer;
 
+// 创建缓存
+const microCache = LRU({
+  max: 100,
+  maxAge: 1000,
+});
 
 router.get('*', async ctx => {
-  // if (ctx.request.url != '/__webpack_hmr') {
-  // }
-  const context = {
-    title: 'vue ssr',
-    url: ctx.request.url
-  };
+  const { url } = ctx.request;
 
-  // to fix koa cannot reponse asyncally
+  // fix renderToString没有返回promise
   function render(renderer) {
     let resolve;
     const promise = new Promise(r => resolve = r);
 
-    renderer.renderToString(context, (err, html) => {
+    const html = microCache.get(url);
+    if (html) {
+      console.log('catch hit!')
       resolve(html);
-    });
+    } else {
+      const context = {
+        title: 'vue ssr',
+        url,
+      };
+
+      renderer.renderToString(context, (err, html) => {
+        resolve(html);
+        microCache.set(url, html);
+      });  
+    }
 
     return promise;
   }
 
   renderer = await rendererPromise;
-  const res = await render(renderer);
+  const res = await render(renderer); 
   ctx.status = 200;
   ctx.body = res;
 });
