@@ -6,10 +6,10 @@ const fs = require('fs');
 const path = require('path');
 const LRU = require('lru-cache')
 const { createBundleRenderer } = require('vue-server-renderer');
-
 const { apiRouter } = require('./server/router');
 const { srcPath } = require('./constants');
 const { setupDevServer, getClientManifest } = require('./build/setup-dev-server');
+const favicon = require('koa-favicon');
 
 const server = new Koa();
 const router = new Router();
@@ -54,6 +54,8 @@ function render(url) {
 
   return promise;
 }
+
+router.use(favicon(`${__dirname}/favicon.ico`));
 
 // 创建缓存
 const microCache = LRU({
