@@ -5,7 +5,7 @@ import VueSSRServerPlugin from 'vue-server-renderer/server-plugin'
 
 const config = merge(baseConfig, {
   target: 'node',
-  entry: path.resolve(__dirname, '../src/server-entry.js'),
+  entry: path.resolve(__dirname, '../server-entry.js'),
   output: {
     filename: 'server.bundle.js',
     libraryTarget: 'commonjs2'

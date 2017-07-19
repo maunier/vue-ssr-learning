@@ -12,7 +12,7 @@ import MFS from 'memory-fs';
 import clientConfig from './webpack.client.config';
 import serverConfig from './webpack.server.config';
 
-export function setupDevServer(server) {
+export function setupDevServer(server, cb) {
   let resolve;
   const promise = new Promise(r => { resolve = r; });
 
@@ -29,6 +29,9 @@ export function setupDevServer(server) {
     // devMiddleware.fileSystem 可以获取到dev插件生成在内存中的文件系统？
     clientManifest = JSON.parse(devMiddleware.fileSystem.readFileSync(path.join(clientConfig.output.path, 'vue-ssr-client-manifest.json'), 'utf-8'));
     clientResolve(clientManifest);
+    if (bundle) {
+      cb(clientManifest, bundle);
+    }
   });
 
   server.use(devMiddleware);
@@ -44,11 +47,14 @@ export function setupDevServer(server) {
     if (err) throw err;
     bundle = JSON.parse(mfs.readFileSync(path.join(clientConfig.output.path, 'vue-ssr-server-bundle.json'), 'utf-8'));
     console.log('serverCompiler watched');
-    
     serverResolve(bundle);
+    if (clientManifest) {
+      cb(clientManifest, bundle);
+    }
   });
 
-  // TODO: 这里应该有bug,因为一个promise只能被resolve一次。
+  // 虽然这里resolve了值，但是并不可以用这个值,因为一个promise只能被resolve一次。
+  // 应该使用回调函数来获取每次更新的clienManifest和bundle
   Promise.all([clientManifestPromise, bundlePromise]).then(resolve);
   return promise;
 }

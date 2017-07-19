@@ -1,4 +1,4 @@
-import createApp from './app';
+import createApp from './src/app';
 
 /*
   这个文件是服务端的入口，将会给bundle renderer调用用于服务端渲染

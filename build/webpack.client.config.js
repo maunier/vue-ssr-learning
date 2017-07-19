@@ -7,7 +7,7 @@ import webpack from 'webpack';
 const config = merge(baseConfig, {
   entry: {
     // to work with hot middleware
-    app: ['webpack-hot-middleware/client', path.resolve(__dirname, '../src/client-entry.js')],
+    app: ['webpack-hot-middleware/client', path.resolve(__dirname, '../client-entry.js')],
   },
   resolve: {
     alias: {

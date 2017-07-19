@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div>this is homepage, hello my name is zhaorui</div>
+    <h1>this is homepage, hello my name is hehe</h1>
+    
     <ul>
       <li>
         <router-link :to="{name: 'list', params: {listType: 'category1'}}">Category1</router-link>
