@@ -24,9 +24,9 @@ async function getRender() {
   const renderer = createBundleRenderer(bundle, {
     template,
     clientManifest,
-    cache: LRU({
-      max: 10000,
-      maxAge: 1000,
+    cache: LRU({ // 组件实例缓存，缓存15分钟.大多数时候不应该也不需要缓存组件实例，一般的应用场景是在v-for中重复出现的组件需要缓存一下。
+      max: 10000, 
+      maxAge: 1000 * 60 * 15,
     }),
   });
 
@@ -61,7 +61,6 @@ router.get('*', async ctx => {
       };
 
       renderer.renderToString(context, (err, html) => {
-        console.log('html:', html);
         resolve(html);
         microCache.set(url, html);
       });  
