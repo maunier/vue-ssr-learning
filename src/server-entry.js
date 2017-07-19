@@ -34,10 +34,8 @@ export default context => {
       Promise.all(allPromise).then(res => {
         // store已经初始化完毕
         context.state = store.state;
-        
         resolve(app);
       });
-      
     } catch (e) {
       console.log('router.onReady error:', e);
     }

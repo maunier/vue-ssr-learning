@@ -24,6 +24,10 @@ async function getRender() {
   const renderer = createBundleRenderer(bundle, {
     template,
     clientManifest,
+    cache: LRU({
+      max: 10000,
+      maxAge: 1000,
+    }),
   });
 
   return renderer;
@@ -57,6 +61,7 @@ router.get('*', async ctx => {
       };
 
       renderer.renderToString(context, (err, html) => {
+        console.log('html:', html);
         resolve(html);
         microCache.set(url, html);
       });  
