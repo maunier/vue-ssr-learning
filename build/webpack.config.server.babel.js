@@ -1,6 +1,6 @@
 import merge from 'webpack-merge';
 import path from 'path';
-import baseConfig from './webpack.base.config.js';
+import baseConfig from './webpack.config.base.babel.js';
 import VueSSRServerPlugin from 'vue-server-renderer/server-plugin'
 
 const config = merge(baseConfig, {

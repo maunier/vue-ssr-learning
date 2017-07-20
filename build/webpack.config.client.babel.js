@@ -1,13 +1,13 @@
 import path from 'path';
 import merge from 'webpack-merge';
-import baseConfig from './webpack.base.config.js';
+import baseConfig from './webpack.config.base.babel.js';
 import VueSSRClientPlugin from 'vue-server-renderer/client-plugin';
 import webpack from 'webpack';
 
 const config = merge(baseConfig, {
   entry: {
     // to work with hot middleware
-    app: ['webpack-hot-middleware/client', path.resolve(__dirname, '../client-entry.js')],
+    app: [path.resolve(__dirname, '../client-entry.js')],
   },
   resolve: {
     alias: {

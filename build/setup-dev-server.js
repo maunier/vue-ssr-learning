@@ -9,8 +9,8 @@ import path from 'path';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'koa-webpack-dev-middleware';
 import MFS from 'memory-fs';
-import clientConfig from './webpack.client.config';
-import serverConfig from './webpack.server.config';
+import clientConfig from './webpack.config.client.babel';
+import serverConfig from './webpack.config.server.babel';
 
 export function setupDevServer(server, cb) {
   let resolve;
