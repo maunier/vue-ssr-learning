@@ -7,7 +7,8 @@
 */
 import path from 'path';
 import webpack from 'webpack';
-import webpackDevMiddleware from 'koa-webpack-dev-middleware';
+import devMiddleware from 'koa-webpack-dev-middleware';
+import hotMiddleware from 'koa-webpack-hot-middleware';
 import MFS from 'memory-fs';
 import clientConfig from './webpack.config.client.babel';
 import serverConfig from './webpack.config.server.babel';
@@ -20,28 +21,29 @@ export function setupDevServer(server, cb) {
   let clientResolve, clientManifest;
   const clientManifestPromise = new Promise(r => { clientResolve = r; })
   const clientCompiler = webpack(clientConfig);
-  const devMiddleware = webpackDevMiddleware(clientCompiler, {
+  const webpackDevMiddleware = devMiddleware(clientCompiler, {
     publicPath: clientConfig.output.publicPath || '',
-    // noInfo: true, // 不要输出打包信息
+    noInfo: true,
   });
+  const webpackHotMiddleware = hotMiddleware(clientCompiler, {});
 
   clientCompiler.plugin('done', stats => {
-    // devMiddleware.fileSystem 可以获取到dev插件生成在内存中的文件系统？
-    clientManifest = JSON.parse(devMiddleware.fileSystem.readFileSync(path.join(clientConfig.output.path, 'vue-ssr-client-manifest.json'), 'utf-8'));
+    clientManifest = JSON.parse(webpackDevMiddleware.fileSystem.readFileSync(path.join(clientConfig.output.path, 'vue-ssr-client-manifest.json'), 'utf-8'));
     clientResolve(clientManifest);
     if (bundle) {
       cb(clientManifest, bundle);
     }
   });
 
-  server.use(devMiddleware);
+  server.use(webpackDevMiddleware);
+  server.use(webpackHotMiddleware);
 
   // 服务端打包
   let serverResolve, bundle;
   const bundlePromise = new Promise(r => { serverResolve = r; });
   const serverCompiler = webpack(serverConfig);
-  
   const mfs = new MFS();
+
   serverCompiler.outputFileSystem = mfs;
   serverCompiler.watch({}, (err, stats) => {
     if (err) throw err;

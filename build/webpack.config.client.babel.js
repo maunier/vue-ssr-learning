@@ -6,8 +6,7 @@ import webpack from 'webpack';
 
 const config = merge(baseConfig, {
   entry: {
-    // to work with hot middleware
-    app: [path.resolve(__dirname, '../client-entry.js')],
+    app: ['webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000', path.resolve(__dirname, '../client-entry.js')],
   },
   resolve: {
     alias: {
@@ -19,7 +18,7 @@ const config = merge(baseConfig, {
     // 生成 `vue-ssr-client-manifest.json`。
     // 可以取代 html-webpack-plugin 来注入正确的资源 URL
     new VueSSRClientPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
+    new webpack.HotModuleReplacementPlugin(), // 开启HMR
   ],
 });
 
