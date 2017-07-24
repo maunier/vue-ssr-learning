@@ -3,6 +3,7 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
 import fetch from 'api';
+import { host, port } from '../../constants';
 
 Vue.use(Vuex);
 
@@ -27,12 +28,16 @@ export default function createStore () {
       fetchArticleLists: async ({ commit }, type, pageNo = 1, size = 10) => {
         if (!type) return Promise.reject('fetchArticleLists: you need a type');
         
-        const res = await fetch(`http://settle.down.com:3000/api/lists/${type}?page=${pageNo}&size=${size}`);
-        const articleLists = await parseRes(res);
+        try {
+          const res = await fetch(`http://${host}:${port}/api/lists/${type}?page=${pageNo}&size=${size}`);
+          const articleLists = await parseRes(res);
 
-        commit('setArticleList', articleLists);
-        
-        return articleLists;
+          commit('setArticleList', articleLists);
+
+          return articleLists;
+        } catch (e) {
+          console.error('fetchArticleLists failed:', e);
+        }
       }
     },
     mutations: {

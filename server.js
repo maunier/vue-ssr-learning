@@ -10,6 +10,7 @@ const { apiRouter } = require('./server/router');
 const { srcPath } = require('./constants');
 const { setupDevServer, getClientManifest } = require('./build/setup-dev-server');
 const favicon = require('koa-favicon');
+const { port } = require('./constants')
 
 const server = new Koa();
 const router = new Router();
@@ -73,6 +74,6 @@ router.get('*', async ctx => {
 
 server.use(apiRouter.routes());
 server.use(router.routes());
-server.listen(3000);
+server.listen(port);
 
-console.log('start-quick is starting at port 3000')
+console.log(`start-quick is starting at port ${port}`)
