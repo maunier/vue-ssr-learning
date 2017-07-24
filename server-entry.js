@@ -12,10 +12,11 @@ export default context => {
   const { app, router, store } = createApp();
   const { url } = context;
 
-  // 想要导航到不同的 URL，则使用 router.push 方法。这个方法会向 history 栈添加一个新的记录
-  // 设置服务器端 router 的位置
+  // 导航到url
   router.push(url);
-  router.onReady( () => {
+  
+  // 导航完毕（跟当前url相关的所有的异步钩子函数resolve, 异步组件加载完毕）
+  router.onReady(() => {
     try {
       // 获取路由所匹配的组件
       const matchedComponents = router.getMatchedComponents();
