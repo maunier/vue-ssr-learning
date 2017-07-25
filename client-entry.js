@@ -6,6 +6,7 @@ import createApp from 'app';
 
 Vue.mixin({
   beforeMount () {
+    console.log('beforeMount');
     const { asyncData } = this.$options;
 
     if (asyncData) {

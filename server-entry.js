@@ -42,7 +42,5 @@ export default context => {
     }
   });
 
-  
   return promise;
-  // return app;
 }

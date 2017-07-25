@@ -17,6 +17,5 @@
 <script>
   export default {
     name: 'Home',
-    // serverCacheKey: 'Home',
   }
 </script>
