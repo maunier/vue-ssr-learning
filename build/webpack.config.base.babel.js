@@ -1,11 +1,11 @@
 import { srcPath } from '../constants';
 import path from 'path';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 export default {
   output: {
     path: path.resolve(__dirname, '../dist'), // 构建到/dist目录下。
     filename: '[name].[hash].js', 
-    // publicPath: './dist/static', //output中所有的路劲会被替换成
   },
   resolve: {
     modules: ['node_modules', srcPath],
@@ -14,10 +14,20 @@ export default {
   module: {
     rules: [{
       test: /\.vue$/,
-      use: 'vue-loader',
-    }, {
-      test: /\.s[ca]ss$/,
-      use: 'sass-loader',
+      loader: 'vue-loader',
+      options: {
+        loaders: {
+          'sass': ExtractTextPlugin.extract({
+            use: ['css-loader', 'sass-loader'],
+            fallback: 'vue-style-loader'
+          })
+        },
+      }
     }],
   },
+  plugins: [
+    new ExtractTextPlugin({
+      filename: '[name].style.[contenthash].css'
+    })
+  ]
 };
