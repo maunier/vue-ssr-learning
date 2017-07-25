@@ -15,7 +15,9 @@ export default {
     rules: [{
       test: /\.vue$/,
       use: 'vue-loader',
-      // options: vueConfig
+    }, {
+      test: /\.s[ca]ss$/,
+      use: 'sass-loader',
     }],
   },
 };
