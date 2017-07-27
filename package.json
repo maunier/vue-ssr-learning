@@ -20,11 +20,13 @@
   "homepage": "https://github.com/zhaorui19910121/my-blog#readme",
   "dependencies": {
     "axios": "^0.16.2",
+    "bluebird": "^3.5.0",
     "koa": "^2.3.0",
     "koa-favicon": "^2.0.0",
     "koa-router": "7",
     "koa-static": "^4.0.0",
     "lru-cache": "^4.1.1",
+    "redis": "^2.7.1",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
     "vue": "^2.3.4",
