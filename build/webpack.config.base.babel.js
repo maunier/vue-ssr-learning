@@ -4,8 +4,8 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 export default {
   output: {
-    path: path.resolve(__dirname, '../dist'), // 构建到/dist目录下。
-    filename: '[name].[hash].js', 
+    path: path.resolve(__dirname, '../dist'),
+    filename: '[name].js', // you should not use [chunkhash] or [hash] for development. This will cause many other issues, like a memory leak, because the dev server does not know when to clean up the old files.
   },
   resolve: {
     modules: ['node_modules', srcPath],
@@ -27,7 +27,7 @@ export default {
   },
   plugins: [
     new ExtractTextPlugin({
-      filename: '[name].style.[contenthash].css'
+      filename: '[name].style.css'
     })
   ]
 };
