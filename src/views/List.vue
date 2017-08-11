@@ -14,7 +14,6 @@
 
   export default {
     name: 'List',
-    // serverCacheKey: 'List',
     data () {
       return {
         itemNumPerPage: 10,

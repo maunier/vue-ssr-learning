@@ -14,9 +14,11 @@ const config = merge(baseConfig, {
     }
   },
   plugins: [
-    // 此插件在输出目录中
-    // 生成 `vue-ssr-client-manifest.json`。
-    // 可以取代 html-webpack-plugin 来注入正确的资源 URL
+    /* 
+      此插件在输出目录中
+      生成 `vue-ssr-client-manifest.json`,
+      可以取代 html-webpack-plugin 来注入正确的资源 URL
+    */
     new VueSSRClientPlugin(),
     new webpack.HotModuleReplacementPlugin(), // 开启HMR
     new webpack.optimize.CommonsChunkPlugin({

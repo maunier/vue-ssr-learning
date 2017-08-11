@@ -10,7 +10,7 @@ export default class ArticlesDao {
   constructor () {
     const url = `mongodb://${host}:27017/my-blog`;
 
-    this.client = redis.createClient();
+    // this.client = redis.createClient();
     this.db = MongoClient.connect(url);
   }
 
