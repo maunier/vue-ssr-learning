@@ -4,6 +4,7 @@ const fs = require('fs');
 const Koa = require('koa');
 const path = require('path');
 const LRU = require('lru-cache')
+const cors = require('koa2-cors');
 const Router = require('koa-router');
 const favicon = require('koa-favicon');
 const { apiRouter } = require('./server/router');
@@ -67,10 +68,13 @@ router.get('*', async ctx => {
   const { url } = ctx.request;
   await readyPromise;
   const res = await render(url); 
+  // TODO: 调用乐趣的接口，将这个纯静态的页面写入到乐趣
+  fs.writeFile('./dist' + url + '.html', res);
   ctx.status = 200;
   ctx.body = res;
 });
 
+server.use(cors());
 server.use(apiRouter.routes());
 server.use(router.routes());
 server.listen(port);

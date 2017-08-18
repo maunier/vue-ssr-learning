@@ -9,7 +9,7 @@ export default function createRouter() {
   return new VueRouter({
     routes: [{
       name: 'homepage',
-      path: '/',
+      path: '/download',
       component: Home
     }, {
       name: 'list',

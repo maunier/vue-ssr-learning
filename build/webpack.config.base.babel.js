@@ -6,6 +6,7 @@ export default {
   output: {
     path: path.resolve(__dirname, '../dist'),
     filename: '[name].js', // you should not use [chunkhash] or [hash] for development. This will cause many other issues, like a memory leak, because the dev server does not know when to clean up the old files.
+    publicPath: '//ssr.demo.com:3000/'
   },
   resolve: {
     modules: ['node_modules', srcPath],
