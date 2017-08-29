@@ -29,6 +29,7 @@ export default context => {
       });
 
       Promise.all(allPromise).then(res => {
+        console.log('store.state:', store.state);
         context.state = store.state;
         resolve(app);
       });

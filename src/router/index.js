@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from 'views/Home.vue';
 import List from 'views/List.vue';
+import Movie from 'views/Movie.vue';
 
 Vue.use(VueRouter);
 
@@ -13,8 +14,8 @@ export default function createRouter() {
       component: Home
     }, {
       name: 'list',
-      path: '/list/:listType',
-      component: List,
+      path: '/movie2017',
+      component: Movie,
     }, {
       name: 'detail',
       path: '/articles/:articleId'

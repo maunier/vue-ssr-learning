@@ -43,7 +43,6 @@ function render(url) {
   let resolve;
   const promise = new Promise(r => resolve = r);
   const html = microCache.get(url);
-  
   if (html) {
     console.log('catch hit!')
     resolve(html);
@@ -52,7 +51,6 @@ function render(url) {
       title: 'vue ssr',
       url,
     };
-
     renderer.renderToString(context, (err, html) => {
       resolve(html);
       microCache.set(url, html);

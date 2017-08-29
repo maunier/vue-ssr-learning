@@ -23,7 +23,7 @@
     // 此函数会在组件实例化之前调用，所以它无法访问 this
     // 也正因为如此，数据需要挂在state上，不能挂在data上，
     asyncData ({ store, route }) {
-      return store.dispatch('fetchArticleLists', route.params.listType, route.params.page, 10);
+      return store.dispatch('fetchArticleLists', 'category1', route.params.page, 10);
     },
     computed: mapState([
       'articleLists'
